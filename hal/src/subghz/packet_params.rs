@@ -223,6 +223,30 @@ impl GenericPacketParams {
         self
     }
 
+    /// Read the current header type value
+    ///
+    /// * Example
+    ///
+    /// Read the header type after setting.
+    ///
+    /// ```
+    /// use stm32wlxx_hal::subghz::{GenericPacketParams, HeaderType};
+    ///
+    /// const PKT_PARAMS_VARIABLE: GenericPacketParams =
+    ///     GenericPacketParams::new().set_header_type(HeaderType::Variable);
+    /// const PKT_PARAMS_FIXED: GenericPacketParams =
+    ///     GenericPacketParams::new().set_header_type(HeaderType::Fixed);
+    /// # assert_eq!(PKT_PARAMS_VARIABLE.header_type(), HeaderType::Variable);
+    /// # assert_eq!(PKT_PARAMS_FIXED.header_type(), HeaderType::Fixed);
+    /// ```
+    pub const fn header_type(&self) -> HeaderType {
+        if self.buf[6] == 0 {
+            HeaderType::Fixed
+        } else {
+            HeaderType::Variable
+        }
+    }
+
     /// Set the payload length in bytes.
     ///
     /// # Example
